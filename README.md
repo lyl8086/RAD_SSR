@@ -36,7 +36,6 @@ CP3_Opti.pl
 * Step4. Check the assembled contigs, retain high quality contigs.
 ```
 bwa mem
-samtools view
 samtools view -hf 0x2 -F 0x100 -q 20 bamfile | awk '$6 !~/H|S/ && $0 !~/XA:Z:/ && $0 !~/SA:Z:/' | samtools view -bS - >final.QC.bam
 extract contigs id from the above QC bam file, then you get the final high quality contigs
 ```
