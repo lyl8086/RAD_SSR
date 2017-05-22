@@ -17,38 +17,38 @@ PREREQUISITES
 
 Steps:
 ---
-Step1. Clustering the reads (containing enzyme sites) by STACKS.
+* Step1. Clustering the reads (containing enzyme sites) by STACKS.
 ```
 ustacks
 cstacks
 sstacks
 ```
-Step2. Export paired-end reads (random sheared) into seperate fasta files.
+* Step2. Export paired-end reads (random sheared) into seperate fasta files.
 ```
 sort_read_pairs.pl
 ```
-Step3. Run local assembly.
+* Step3. Run local assembly.
 ```
 CP3_Opti.pl
 ```
 <strong>*The above steps can be accomplished by a easy used pipeline soft [RADassembly](https://github.com/lyl8086/RADscripts/tree/master/RADassembly/Pipeline)</strong>
 
-Step4. Check the assembled contigs, retain high quality contigs.
+* Step4. Check the assembled contigs, retain high quality contigs.
 ```
 bwa mem
 samtools view
 samtools view -hf 0x2 -F 0x100 -q 20 bamfile | awk '$6 !~/H|S/ && $0 !~/XA:Z:/ && $0 !~/SA:Z:/' | samtools view -bS - >final.QC.bam
 extract contigs id from the above QC bam file, then you get the final high quality contigs
 ```
-Step5. Run QDD in galaxy or in command line, please refer to the [manuals](http://net.imbe.fr/~emeglecz/QDDweb/QDD-3.1.2/Documentation_QDD-3.1.2.pdf)
+* Step5. Run QDD in galaxy or in command line, please refer to the [manuals](http://net.imbe.fr/~emeglecz/QDDweb/QDD-3.1.2/Documentation_QDD-3.1.2.pdf).
 ```
 perl QDD.pl
 ```
 
 ---
 
-Then you get the microsatellites from assembled contigs(including primers)
+Then you get the microsatellites from assembled contigs(including primers).
 
-<h3>All the above steps can be accomplished in a pipeline soft RAD_SSR (under development)</h3>
+<h3>All the above steps can be accomplished in a pipeline soft RAD_SSR (under development).</h3>
 
-* Please [contact](mailto:liyulong12@mails.ucas.ac.cn) me if you have any questions
+* Please [contact](mailto:liyulong12@mails.ucas.ac.cn) me if you have any questions.
