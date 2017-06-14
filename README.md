@@ -48,6 +48,5 @@ perl QDD.pl
 
 Then you get the microsatellites from assembled contigs(including primers).
 
-<h3>All the above steps can be accomplished in a pipeline soft RAD_SSR (under development).</h3>
 
 * Please [contact](mailto:liyulong12@mails.ucas.ac.cn) me if you have any questions.
