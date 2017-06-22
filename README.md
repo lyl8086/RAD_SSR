@@ -44,7 +44,7 @@ samtools view -hf 0x2 -F 0x100 -q 20 bamfile | awk '$6 !~/H|S/ && $0 !~/XA:Z:/ &
 
 extract contigs id from the above QC bam file, then you get the final high quality contigs
 ```
-* Step5. Run QDD in galaxy or in command line, please refer to the [manuals](http://net.imbe.fr/~emeglecz/QDDweb/QDD-3.1.2/Documentation_QDD-3.1.2.pdf).
+* Step5. Run QDD in [galaxy](https://usegalaxy.org/) or in command line, please refer to the [manuals](http://net.imbe.fr/~emeglecz/QDDweb/QDD-3.1.2/Documentation_QDD-3.1.2.pdf).
 ```
 perl QDD.pl
 ```
