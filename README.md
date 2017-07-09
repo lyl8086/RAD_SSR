@@ -34,7 +34,7 @@ sort_read_pairs.pl
 ```
 CP3_Opti.pl
 ```
-<strong>*The above steps can be accomplished by an easily used pipeline soft [RADassembly](https://github.com/lyl8086/RADscripts/tree/master/RADassembly/Pipeline)</strong>
+<strong>*The above steps can be accomplished by an easily used pipeline software [RADassembly](https://github.com/lyl8086/RADscripts/tree/master/RADassembly/Pipeline)</strong>
 
 * Step4. Check the assembled contigs, retain high quality contigs.
 ```
