@@ -30,7 +30,7 @@
 
 use strict;
 use constant stacks_version => "1.32.2";
-
+use List::Util 'shuffle';
 use constant true  => 1;
 use constant false => 0;
 
@@ -124,22 +124,25 @@ foreach $file (@files) {
 	process_fastq_read_pairs($samp_path, $file, \%stacks, $reads{$file->{'prefix'}}) :
 	process_fasta_read_pairs($samp_path, $file, \%stacks, $reads{$file->{'prefix'}});
     print STDERR "done.\n";
-
-    print STDERR "  Printing results...";
-    print_results($out_path, \%matches, \%stacks, \%reads, \%multiple_matches, $depth);
-    print STDERR "done.\n";
-
-    #
-    # Clean up memory usage.
-    #
-    print STDERR "  Clearing memory...";
-    undef(%{$stacks{$file->{'prefix'}}});
-    undef(%{$reads{$file->{'prefix'}}});
-    print STDERR "  done.\n";
-
     $i++;
 }
 
+#
+# Output files (multi-individuals) for each loci.
+#
+print STDERR "Printing results...";
+print_results($out_path, \%matches, \%stacks, \%reads, \%multiple_matches, $depth);
+print STDERR "done.\n";
+
+#
+# Clean up memory usage.
+#
+
+#print STDERR "  Clearing memory...";
+#undef(%{$stacks{$file->{'prefix'}}});
+#undef(%{$reads{$file->{'prefix'}}});
+#print STDERR "  done.\n";
+	
 sub load_matches {
     my ($in_path, $in_file, $matches, $marker_wl) = @_;
 
@@ -368,7 +371,15 @@ sub process_fasta_read_pairs {
 sub print_results {
     my ($out_path, $matches, $stacks, $reads, $multiple_matches, $depth) = @_;
 
-    my ($path, $cat_id, $sample, $stack_id, $read, $out_fh, $i, @keys, $count, $key, $mult_hits);
+    my ($path, $cat_id, $sample, $stack_id, $read, $out_fh, $i, @keys, $count, $key, $mult_hits, $mindepth, $maxdepth);
+	
+	if ($depth =~ /(\d+)\:(\d+)/) {
+		$mindepth = $1;
+		$maxdepth = $2;
+	} else {
+		$mindepth = $depth;
+		$maxdepth = 0;
+	}
 
     # 
     # If a catalog ID matches stacks from multiple samples, print them out together.
@@ -378,20 +389,65 @@ sub print_results {
         # Check that this catalog ID only has a single match from each sample.
         #
         next if (defined($multiple_matches->{$cat_id}));
-		my $cnt = 0;
 		
-		if (defined $depth) {
+		my $cnt = 0; # Depth for a loci(single-end).
+		my @out_seq; # Array holds output seqs for a catalog loci.
+		
+		if ($mindepth) {
 			#
 			# a minimum depth for paired-end required...
 			# if read pairs please divide by 2.
 			#
-			foreach my $key (keys %{$matches->{$cat_id}}) {
-			
-				($sample, $stack_id) = split(/\|/, $key);
-				map {$cnt++} @{$reads->{$sample}->{$stack_id}};
+			if ($maxdepth) {
+				#
+				# randomly downscale to the maximum depth 
+				#
+				foreach my $key (keys %{$matches->{$cat_id}}) {
+					
+					($sample, $stack_id) = split(/\|/, $key);
+					
+					foreach $read (@{$reads->{$sample}->{$stack_id}}) {
+						
+						$cnt++;
+						
+						if ($out_type eq "fasta") {
+							my $out .= ">". $cat_id. "|". $sample. "|". $stack_id. "|". $read->{'id'}. "\n";
+							   $out .= $read->{'seq'} . "\n";
+							push @out_seq, $out;
+						} else {
+							my $out .= "@". $cat_id. "|". $sample. "|". $stack_id. "|". $read->{'id'}. "\n";
+							   $out .= $read->{'seq'}. "\n";
+							   $out .= "+\n";
+							   $out .= $read->{'qual'}. "\n";
+							push @out_seq, $out;
+						}
+					}
+				}
+				next if $cnt < $mindepth;
+				$path  = $out_path . "/" . $cat_id;
+				$path .= $out_type eq "fasta" ? ".fa" : ".fq";
+				open($out_fh, ">$path") or die("Unable to open $path; '$!'\n");
+					
+				if ($cnt > $maxdepth) {
+					my @out = shuffle @out_seq;
+					map {print $out_fh $_} @out[1..$maxdepth];
+					close $out_fh;
+					next;
+				} else {
+					map {print $out_fh $_} @out_seq;
+					close $out_fh;
+					next;
+				}
 				
+				close $out_fh;
+				
+			} else {
+				foreach my $key (keys %{$matches->{$cat_id}}) {
+					($sample, $stack_id) = split(/\|/, $key);
+					map {$cnt++} @{$reads->{$sample}->{$stack_id}};
+				}
+				next if $cnt < $mindepth;
 			}
-			next if $cnt < $depth;
 		}
 		
 		$path  = $out_path . "/" . $cat_id;
@@ -604,7 +660,8 @@ sort_read_pairs.pl -p path -s path -o path [-t type] [-W white_list] [-w white_l
     o: path to output the collated FASTA files.
     i: input type, either 'fasta' or 'fastq' (default).
     t: output type, either 'fasta' (default) or 'fastq'.
-    m: minimum depth for a locus.
+    m: minimum depth for a locus (can also be mindepth:maxdepth, say 10:400, the minimum depth is 10, and
+    the reads of a locus will also be randomly downscale to the maxdepth 400).
     W: a white list of files to process in the input path.
     w: a white list of catalog IDs to include.
     h: display this help message.
