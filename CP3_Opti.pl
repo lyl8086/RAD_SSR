@@ -17,14 +17,14 @@ my $usage =
 '	
 	Options [default values]:
 	
-	-i input path of fasta files
-	-o output path for assembly files
-	-l catalog file from stacks [batch_XXX.catalog.tags.tsv.gz]
-	-t number of threads [1]
-	-c collect the assembly results for the second reads [0]
-	-p parameters parsed to CAP3
-	-f sub file list for assembly 
-	-h help
+	-i: input path of fasta files
+	-o: output path for assembly files
+	-l: catalog file from stacks [batch_XXX.catalog.tags.tsv.gz]
+	-t: number of threads [1]
+	-c: collect the assembly results for the second reads [0]
+	-p: parameters parsed to CAP3
+	-f: sub file list for assembly 
+	-h: help
 ';
 
 GetOptions (	"par=s"		=> \$cmd,
@@ -45,12 +45,12 @@ die "$usage\n" if !($in_path && $out_path && $loci) or ($help);
 if (! -e "$out_path/assembly_1st") {
 	
 	`mkdir -p $out_path/assembly_1st`;
-	`mkdir -p $out_path/log`
+	`mkdir -p $out_path/log`;
 	
 }
 
 #
-# Delete any tmp files;
+# Delete any tmp files
 #
 `find $in_path/ -name "*cap*" |xargs rm -rf`;
 
