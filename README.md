@@ -4,7 +4,7 @@ RAD-seq-Assembly-Microsatellite approach
 
 Please cite our paper if you find it useful to your work.
 
->Yulong Li et al. (<em>in prep</em>). An optimized highly efficient approach for local de novo assembly of multiple individuals’ reads based on overlapping paired-end RAD sequencing.
+>Yulong Li et al. (<em>submitted</em>). An optimized highly efficient approach for local de novo assembly of multiple individuals’ reads based on overlapping paired-end RAD sequencing.
 
 >Xue DX, Li YL, Liu JX (2017). A rapid and cost-effective approach for the development of polymorphic microsatellites 
 in non-model species by using paired-end RAD sequencing. <em>Molecular Genetics and Genomics</em>. DOI: 10.1007/s00438-017-1337-x
@@ -34,8 +34,6 @@ sort_read_pairs.pl
 ```
 CP3_Opti.pl
 ```
-<strong>*The above steps can be accomplished by an easily used pipeline software [RADassembly](https://github.com/lyl8086/RADscripts/tree/master/RADassembly/Pipeline)</strong>
-
 * Step4. Check the assembled contigs, retain high quality contigs.
 ```
 bwa mem
