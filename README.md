@@ -30,7 +30,7 @@ sstacks
 ```
 sort_read_pairs.pl
 ```
-* Step3. Run local assembly.
+* Step3. Run two-step local assembly (recommended), or use other common assembly strategies (DBG or OLC).
 ```
 CP3_Opti.pl
 ```
