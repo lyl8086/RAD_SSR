@@ -1,14 +1,11 @@
-RAD-seq-Assembly-Microsatellite approach
----
-<strong>Codes used in microsatellites discovery of overlapping paired-end RAD seq.</strong>
+## ~RAD-seq-Assembly-Microsatellite approach~
 
-Please cite our paper if you find it useful to your work.
+~Codes used in microsatellites discovery of overlapping paired-end RAD seq.~
 
->Yulong Li et al. (<em>submitted</em>). An optimized highly efficient approach for local de novo assembly of multiple individuals’ reads based on overlapping paired-end RAD sequencing.
+<b>Deprecated:</b>
 
->Xue DX, Li YL, Liu JX (2017). A rapid and cost-effective approach for the development of polymorphic microsatellites 
-in non-model species by using paired-end RAD sequencing. <em>Molecular Genetics and Genomics</em>. DOI: 10.1007/s00438-017-1337-x
-.
+<b>Please check [RADassembler](https://github.com/lyl8086/RADscripts/tree/master/RADassembler) for a more efficient tool.</b>
+
 
 PREREQUISITES
 ---
@@ -53,3 +50,13 @@ Then you get the microsatellites from assembled contigs(including primers).
 
 
 * Please [contact](mailto:liyulong12@mails.ucas.ac.cn) me if you have any questions.
+
+Please cite our paper if you find it useful to your work.
+
+> Li YL, Xue DX, Zhang BD, Liu JX. 2018 An optimized approach for local de novo assembly of overlapping 
+paired-end RAD reads from multiple individuals. Royal Society Open Science. 5:171589. [[link]](http://dx.doi.org/10.1098/rsos.171589)
+
+>Xue DX, Li YL, Liu JX (2017). A rapid and cost-effective approach for the development of polymorphic microsatellites 
+in non-model species by using paired-end RAD sequencing. <em>Molecular Genetics and Genomics</em>. DOI: 10.1007/s00438-017-1337-x
+
+
