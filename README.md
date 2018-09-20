@@ -4,7 +4,7 @@
 
 <b>Deprecated:</b>
 
-<b>Please check [RADassembler](https://github.com/lyl8086/RADscripts/tree/master/RADassembler) for a more efficient tool.</b>
+<b>Please check [RADassembler](https://github.com/lyl8086/RADscripts/tree/master/RADassembler) for a more efficient assembly tool.</b>
 
 
 PREREQUISITES
